@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>马原人格辩证仪 | 浙工大课程互动</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #2b2b2b;
+            background-image: radial-gradient(circle at 10% 20%, #3a3a3a 0%, #1e1e1e 100%);
+            font-family: 'Segoe UI', 'Roboto', 'Georgia', 'Times New Roman', serif;
+            padding: 30px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        /* 头部卡片 */
+        .hero {
+            background: linear-gradient(135deg, #881e1e, #4a1515);
+            color: #fef0cf;
+            padding: 35px 28px 25px 28px;
+            border-radius: 48px 48px 32px 32px;
+            text-align: center;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+            border-bottom: 4px solid #e2a526;
+        }
+        .hero h1 {
+            font-size: 2rem;
+            letter-spacing: 2px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .hero h1 span {
+            font-size: 2rem;
+            display: inline-block;
+            margin-right: 6px;
+        }
+        .hero .sub {
+            font-size: 0.95rem;
+            opacity: 0.88;
+            max-width: 600px;
+            margin: 8px auto 0;
+            font-style: italic;
+        }
+
+        /* 主体区域 */
+        .quiz-wrapper {
+            background: #fffaf2;
+            border-radius: 32px;
+            margin-top: 24px;
+            padding: 32px 36px;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.2);
+        }
+
+        .question-item {
+            background: #ffffff;
+            border-radius: 28px;
+            margin-bottom: 32px;
+            padding: 18px 26px;
+            border: 1px solid #ecdbaa;
+            transition: 0.1s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+        .q-text {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #3e2a1f;
+            margin-bottom: 20px;
+            padding-left: 12px;
+            border-left: 5px solid #bb5e2e;
+        }
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .option-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            background: #fefaf2;
+            padding: 10px 18px;
+            border-radius: 50px;
+            border: 1px solid #ecdbb8;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .option-row:hover {
+            background: #f7ecdd;
+            border-color: #bc7846;
+            transform: translateX(4px);
+        }
+        input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 3px;
+            accent-color: #9b422b;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+        .option-row label {
+            font-size: 0.96rem;
+            line-height: 1.4;
+            color: #2e241c;
+            cursor: pointer;
+            flex: 1;
+        }
+        .btn-submit {
+            background: #7a3a23;
+            border: none;
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            font-family: inherit;
+            color: #fff0db;
+            border-radius: 60px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: 0.15s;
+            box-shadow: 0 5px 0 #4c2a1a;
+            letter-spacing: 2px;
+        }
+        .btn-submit:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #4c2a1a;
+        }
+
+        /* 结果区域 */
+        .result-card {
+            background: #fff7ed;
+            border-radius: 32px;
+            margin-top: 38px;
+            padding: 24px 30px;
+            border-left: 8px solid #c46a34;
+            display: none;
+        }
+        .result-name {
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: #5b311c;
+            margin-bottom: 18px;
+            border-left: 4px solid #d47e42;
+            padding-left: 20px;
+        }
+        .result-section {
+            margin-bottom: 22px;
+        }
+        .result-section h4 {
+            font-size: 1.1rem;
+            color: #a34e2a;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #e9d4b4;
+            display: inline-block;
+        }
+        .result-section p {
+            line-height: 1.5;
+            color: #2c231c;
+            font-size: 0.96rem;
+        }
+        .quote-block {
+            background: #efe0ce;
+            padding: 14px 20px;
+            border-radius: 28px;
+            font-style: italic;
+            color: #5c351e;
+            margin: 18px 0;
+            border-left: 4px solid #c47a42;
+        }
+        .footer-note {
+            text-align: center;
+            margin-top: 28px;
+            font-size: 0.7rem;
+            color: #b1936e;
+            border-top: 1px solid #ecdbaa;
+            padding-top: 16px;
+        }
+        /* 低调的作者信息 */
+        .credits {
+            text-align: center;
+            font-size: 0.65rem;
+            color: #aa8b62;
+            margin-top: 18px;
+            letter-spacing: 0.5px;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 620px) {
+            .quiz-wrapper { padding: 20px; }
+            .result-name { font-size: 1.4rem; }
+            .hero h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="hero">
+        <h1><span>⚙️</span> 马原人格辩证仪 <span>📖</span></h1>
+        <div class="sub">你的思维风格，更接近马克思主义发展史中的哪一位思想家？</div>
+    </div>
+    <div class="quiz-wrapper" id="quizApp">
+        <div id="questionsArea"></div>
+        <button class="btn-submit" id="submitBtn">🌿 解读我的人格气质 🌿</button>
+        <div id="resultContainer" class="result-card"></div>
+        <div class="footer-note">※ 本互动聚焦思想方法与关注重点，不涉及政治立场评判。</div>
+        <div class="credits">吴依涵 · 浙江工业大学 马克思主义基本原理课程作业</div>
+    </div>
+</div>
+
+<script>
+    // ---------- 题目：无标准答案，围绕思维方式与关注重点 ----------
+    const QUESTIONS = [
+        {
+            text: "当你面对一个复杂的社会问题时，你更习惯于从哪个角度切入？",
+            options: [
+                "分析背后的经济结构、生产关系和物质利益冲突。",
+                "观察不同群体之间的日常互动，相信自发合作的力量。",
+                "思考文化观念、媒体叙事和大众心理如何塑造了人们的看法。",
+                "关注个体的心理状态、情感需求和价值迷失。"
+            ]
+        },
+        {
+            text: "你更认同哪种推动社会进步的方式？",
+            options: [
+                "抓住历史规律与主要矛盾，在关键时刻采取果断行动。",
+                "依靠基层自发的组织、工会和社区互助，逐步积累变革。",
+                "建立严密且富有纪律的先锋团队，在复杂局势中引领方向。",
+                "通过教育、艺术、公共讨论来改变人们的意识和日常认知。"
+            ]
+        },
+        {
+            text: "对于“理论”和“实践”的关系，你的观点更接近？",
+            options: [
+                "理论一旦掌握群众就会变成物质力量，二者相互渗透。",
+                "实践始终是第一位的，理论必须在行动中被检验和修正。",
+                "正确的理论是行动的指南，没有革命理论就没有革命运动。",
+                "批判本身就是实践，改变人们看待世界的方式至关重要。"
+            ]
+        },
+        {
+            text: "你认为现代社会中，最需要被警惕的“异化”现象是？",
+            options: [
+                "工人与劳动产品的分离，人沦为机器的附属物。",
+                "人与人之间被金钱关系取代，社会关系变得冷漠疏离。",
+                "消费主义制造虚假需求，让人忘记真正的自由。",
+                "现代人的孤独、焦虑和意义感的丧失。"
+            ]
+        },
+        {
+            text: "在集体行动中，你更倾向于扮演哪种角色？",
+            options: [
+                "战略分析者，提供对整体形势的判断和方向建议。",
+                "联络组织者，激发大家的参与感和自组织能力。",
+                "纪律协调者，确保计划执行并应对突发危机。",
+                "文化倡导者，用文字、影像或活动凝聚共识。"
+            ]
+        },
+        {
+            text: "你如何看待“国家”在社会变革中的位置？",
+            options: [
+                "国家是阶级统治的工具，最终需要被新的共同体形式取代。",
+                "国家可以逐步功能弱化，让位于公民的自我管理。",
+                "夺取国家机器是改造社会的关键一步，必须审慎对待。",
+                "国家不仅是暴力机构，更是文化和意识形态的场域。"
+            ]
+        },
+        {
+            text: "你更欣赏哪一种知识分子的担当？",
+            options: [
+                "用科学方法揭示社会运行规律，为实践提供理论武器。",
+                "深入群众，从普通人的经验中提炼出真实的需求。",
+                "作为先锋队的智囊，将理论转化为清晰的政治路线。",
+                "作为公共知识分子，批判日常生活中的无形支配。"
+            ]
+        },
+        {
+            text: "对于未来理想社会，你心中最有共鸣的画面是？",
+            options: [
+                "每个人自由而全面的发展，物质极大丰富、按需分配。",
+                "小型合作共同体，生态可持续，人们互助且彼此熟悉。",
+                "公平的计划体系，保障基本生存权和发展机会均等。",
+                "文化多元、个性解放，摆脱消费主义和工具理性的控制。"
+            ]
+        },
+        {
+            text: "你更习惯于用哪种方式回应不同观点？",
+            options: [
+                "从基本矛盾出发，层层推导对方的逻辑前提。",
+                "倾听对方的具体经历，寻找共识与协作可能。",
+                "明确立场与原则，强调策略的必要性。",
+                "解构对方话语背后的隐含假设与权力关系。"
+            ]
+        },
+        {
+            text: "你认为当代思想讨论中最缺乏的是？",
+            options: [
+                "对经济基础的系统分析。",
+                "对基层草根实践的尊重。",
+                "清晰的组织与行动策略。",
+                "对文化叙事的批判性重构。"
+            ]
+        }
+    ];
+
+    // 六种历史人物形象（正面、侧重思维特质）
+    const PERSONALITIES = {
+        marx: {
+            name: "🏭 卡尔·马克思 · 批判与系统的构建者",
+            figure: "Karl Marx (1818–1883)",
+            description: "你拥有强大的结构思维与批判精神，习惯从物质生产、经济基础入手剖析世界。你相信社会发展有规律可循，擅长从矛盾中看见历史方向。在人群中，你往往是那个提出「这背后是体系问题」的人。",
+            modern: "今天的你可能喜欢研读政治经济学，关注平台劳动、数字剥削等议题。你思维严谨、论述犀利，虽然偶尔显得理性冷峻，但你的判断常带有穿透表象的力量。",
+            quote: "“哲学家们只是用不同方式解释世界，而问题在于改变世界。” ——《关于费尔巴哈的提纲》",
+            insight: "你的系统性眼光是宝贵的财富，同时也可以多留意文化、情感等复杂变量，让分析更具温度。"
+        },
+        engels: {
+            name: "🌾 弗里德里希·恩格斯 · 整体视野的观察者",
+            figure: "Friedrich Engels (1820–1895)",
+            description: "你擅长整体把握，注重多种因素的相互作用，而非单一归因。你有很强的整合能力，善于在复杂系统中寻找平衡点。你相信历史的合力，也尊重自然与社会的辩证关系。",
+            modern: "在小组协作中，你常负责框架梳理与资料整合。你对生态议题、科技与社会的关系有浓厚兴趣，比大多数人更包容异见，乐于对话。",
+            quote: "“历史是这样创造的：最终的结果总是从许多单个的意志的相互冲突中产生出来。” ——《致约瑟夫·布洛赫》",
+            insight: "你的包容与系统思维有助于化解极端，但也要敢于在关键时刻做出决断。"
+        },
+        luxemburg: {
+            name: "🌹 罗莎·卢森堡 · 自发与民主的信仰者",
+            figure: "Rosa Luxemburg (1871–1919)",
+            description: "你相信普通人的创造力与自发性，警惕任何形式的官僚化。你热情、果敢且富有同理心，厌恶精英对群众的替代。在你看来，真正的解放必须由被压迫者自己完成。",
+            modern: "你是社团中那个不断倡导倾听基层声音的人，乐于参与互助网络与直接行动。朋友觉得你亲切又坚定，你相信民主要从日常互动中长出来。",
+            quote: "“自由始终是持不同思想者的自由。” ——《俄国的悲剧》",
+            insight: "你的自发精神难能可贵，同时可以思考如何建立更稳定的组织形式来保护运动的成果。"
+        },
+        lenin: {
+            name: "⚡ 弗拉基米尔·列宁 · 战略与组织的行动者",
+            figure: "Vladimir Lenin (1870–1924)",
+            description: "你重视策略、纪律与时机，善于在复杂局势中找到突破口。你务实、果决，相信正确的领导和严密组织能够改变力量对比。你不惧怕责任，擅长将理论转化为行动步骤。",
+            modern: "你可能是项目负责人或团队核心，擅长制定计划、分配任务、应对突发状况。朋友觉得你可靠且有主见，你相信「谋定而后动」。",
+            quote: "“没有革命的理论，就不会有革命的运动。” ——《怎么办？》",
+            insight: "你的组织才能十分出色，记得始终保持与基层的紧密联系，避免脱离实际。"
+        },
+        gramsci: {
+            name: "📚 安东尼奥·葛兰西 · 文化与领导力的剖析者",
+            figure: "Antonio Gramsci (1891–1937)",
+            description: "你敏锐地意识到，权力不仅存在于国家机器中，更渗透在语言、教育、媒体和日常认知里。你喜欢追问「谁规定了什么是常识」。你的思考带有文化诗意的深度。",
+            modern: "你可能是社科、传媒或艺术专业的学生，喜欢分析文化现象背后的权力结构。你善于用文字或影像传递思考，相信改变世界要从改变默认观念开始。",
+            quote: "“要统治一个社会，不仅要掌握暴力，还要掌握同意。” ——《狱中札记》",
+            insight: "文化批判非常重要，也请留意物质斗争的基础性作用，让批判更有根基。"
+        },
+        fromm: {
+            name: "💚 埃里希·弗洛姆 · 人道与心理的关怀者",
+            figure: "Erich Fromm (1900–1980)",
+            description: "你关注现代人的孤独、焦虑与逃避自由的心理机制。你不只看阶级，也关注亲密关系、童年经历和消费文化如何塑造人的性格。你温暖而敏感，相信爱也是一种反抗。",
+            modern: "你可能学习心理学、社会学或社会工作，善于倾听他人未曾说出的痛苦。你是朋友中的树洞，相信一个更好的社会应当让人更完整、更健康。",
+            quote: "“人道主义的社会主义之目标，乃是建立一个真正适合人类需要的社会。” ——《占有还是存在》",
+            insight: "你的同理心极其珍贵，同时也要关注制度性压迫，避免过度心理化的归因。"
+        }
+    };
+
+    // 得分映射（选项0~3分别对应不同权重）
+    function accumulateScores(selectedIndices) {
+        let counts = { marx:0, lux:0, lenin:0, gramsci:0 };
+        for(let idx of selectedIndices) {
+            if(idx === 0) counts.marx++;
+            else if(idx === 1) counts.lux++;
+            else if(idx === 2) counts.lenin++;
+            else if(idx === 3) counts.gramsci++;
+        }
+        return counts;
+    }
+
+    function determinePersonality(counts) {
+        let { marx, lux, lenin, gramsci } = counts;
+        // 恩格斯型：marx与lux均衡且都较高
+        if(marx >= 3 && lux >= 3 && (marx+lux) >= (lenin+gramsci)) {
+            return "engels";
+        }
+        // 弗洛姆型：葛兰西+卢森堡倾向，且人文关怀分数高
+        if(gramsci >= 3 && lux >= 3 && (gramsci+lux) >= (marx+lenin)) {
+            return "fromm";
+        }
+        let maxVal = Math.max(marx, lux, lenin, gramsci);
+        if(maxVal === marx) return "marx";
+        if(maxVal === lux) return "luxemburg";
+        if(maxVal === lenin) return "lenin";
+        return "gramsci";
+    }
+
+    // 渲染题目列表
+    function renderQuestions() {
+        const container = document.getElementById("questionsArea");
+        container.innerHTML = "";
+        QUESTIONS.forEach((q, idx) => {
+            const qDiv = document.createElement("div");
+            qDiv.className = "question-item";
+            qDiv.innerHTML = `
+                <div class="q-text">${idx+1}. ${q.text}</div>
+                <div class="options-list" data-qidx="${idx}">
+                    ${q.options.map((opt, optIdx) => `
+                        <div class="option-row" data-val="${optIdx}">
+                            <input type="radio" name="q${idx}" id="q${idx}_${optIdx}" value="${optIdx}">
+                            <label for="q${idx}_${optIdx}">${opt}</label>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    // 收集答案
+    function collectAnswers() {
+        let answers = [];
+        for(let i = 0; i < QUESTIONS.length; i++) {
+            const selected = document.querySelector(`input[name="q${i}"]:checked`);
+            if(!selected) return null;
+            answers.push(parseInt(selected.value));
+        }
+        return answers;
+    }
+
+    // 展示结果
+    function displayResult() {
+        const answers = collectAnswers();
+        if(!answers) {
+            alert("请先完成全部10道题目，再查看你的思维气质。");
+            return;
+        }
+        const scores = accumulateScores(answers);
+        const typeKey = determinePersonality(scores);
+        const data = PERSONALITIES[typeKey];
+        const resultDiv = document.getElementById("resultContainer");
+        resultDiv.style.display = "block";
+        resultDiv.innerHTML = `
+            <div class="result-name">${data.name}</div>
+            <div class="result-section">
+                <h4>📜 历史参照 · ${data.figure}</h4>
+                <p>${data.description}</p>
+            </div>
+            <div class="result-section">
+                <h4>🎓 今日气质画像</h4>
+                <p>${data.modern}</p>
+            </div>
+            <div class="quote-block">✍️ ${data.quote}</div>
+            <div class="result-section">
+                <h4>✨ 思辨笔记</h4>
+                <p>${data.insight}</p>
+            </div>
+            <div style="font-size:0.75rem; border-top:1px solid #ecdbb8; margin-top:16px; padding-top:12px;">⚙️ 思维光谱参考：马克思方向 ${scores.marx} / 卢森堡方向 ${scores.lux} / 列宁方向 ${scores.lenin} / 葛兰西方向 ${scores.gramsci}</div>
+        `;
+        resultDiv.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    renderQuestions();
+    document.getElementById("submitBtn").addEventListener("click", displayResult);
+</script>
+</body>
+</html>
